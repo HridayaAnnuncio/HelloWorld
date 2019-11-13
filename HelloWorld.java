@@ -1,4 +1,3 @@
-package org.olamy.maven.course;
 
 /**
  * Hello world!
