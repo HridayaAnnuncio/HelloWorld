@@ -1,10 +1,10 @@
-<project name="hello world sample" default="jar">
+<project name="HelloWorld" default="jar">
 
   <property name="output" value="build"/>
   <property name="output.classes" value="${output}/classes"/>
 
-  <property name="junit.jar" value="lib/junit-3.8.1.jar"/>
-  <property name="src.tests" value="src/test/java"/>
+  <property name="junit.jar" value="junit-3.8.1.jar"/>
+  <!--<property name="src.tests" value="src/test/java"/>-->
 
   <path id="test.classpath">
     <pathelement location="${output.classes}"/>
