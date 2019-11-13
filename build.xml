@@ -1,39 +1,65 @@
-<project name="HelloWorld" basedir="." default="main">
+<project name="hello world sample" default="jar">
 
-    <property name="src.dir"     value="src"/>
+  <property name="output" value="build"/>
+  <property name="output.classes" value="${output}/classes"/>
 
-    <property name="build.dir"   value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="jar.dir"     value="${build.dir}/jar"/>
+  <property name="junit.jar" value="lib/junit-3.8.1.jar"/>
+  <property name="src.tests" value="src/test/java"/>
 
-    <property name="main-class"  value="oata.HelloWorld"/>
+  <path id="test.classpath">
+    <pathelement location="${output.classes}"/>
+    <pathelement location="${junit.jar}"/>
+  </path>
+
+  <target name="init" description="init some directories">
+
+    <mkdir dir="${output}"/>
+    <mkdir dir="${output.classes}"/>
+
+  </target>
+
+  <target name="clean" depends="init" description="clean output">
+    <delete dir="build"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile main classes">
+
+    <javac srcdir="src/main/java" destdir="${output.classes}" encoding="UTF-8" source="1.5" target="1.5" debug="true"
+           includeAntRuntime="true">
+
+    </javac>
+
+  </target>
 
 
+  <target name="compile-test" depends="init,compile" description="compile test classes">
 
-    <target name="clean">
-        <delete dir="${build.dir}"/>
-    </target>
+    <javac srcdir="${src.tests}" destdir="${output.classes}" encoding="UTF-8" source="1.5" target="1.5" debug="true"
+           includeAntRuntime="true">
+      <classpath refid="test.classpath"/>
+    </javac>
 
-    <target name="compile">
-        <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
-    </target>
+  </target>
 
-    <target name="jar" depends="compile">
-        <mkdir dir="${jar.dir}"/>
-        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
-            <manifest>
-                <attribute name="Main-Class" value="${main-class}"/>
-            </manifest>
-        </jar>
-    </target>
+  <target name="run-tests" depends="init,compile-test" description="run unit tests">
+    <junit haltonerror="false" haltonfailure="true" printsummary="on">
+      <classpath refid="test.classpath"/>
 
-    <target name="run" depends="jar">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
-    </target>
+      <batchtest fork="yes">
+        <fileset dir="${src.tests}">
+          <include name="**/*Test*.java"/>
+        </fileset>
+      </batchtest>
 
-    <target name="clean-build" depends="clean,jar"/>
+    </junit>
 
-    <target name="main" depends="clean,run"/>
+  </target>
+
+  <target name="package" depends="init, compile" description="package in jar file">
+    <jar destfile="${output}/hello-world.jar" basedir="${output.classes}" manifest="./MANIFEST.MF">
+
+    </jar>
+  </target>
+
 
 </project>

@@ -1,14 +1,25 @@
+public class HelloWorld
+{
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+    private String who;
 
-public class HelloWorld {
+    public HelloWorld()
+    {
+        this.who = "World";
+    }
 
-  public static void main(final String[] args) {
-    final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a 'on' MMMM d, yyyy'.'");
-    final LocalDateTime now = LocalDateTime.now();
+    public HelloWorld( String who )
+    {
+        this.who = who;
+    }
 
-    System.out.println("Hello, World! The current time is " + dtf.format(now));
-  }
+    public String sayHello()
+    {
+        return "Hello " + ( this.who == null ? "World" : this.who );
+    }
 
-}
+    public static void main( String[] args )
+    {
+        HelloWorld helloWorld = new HelloWorld( args.length > 0 ? args[0] : null );
+        System.out.println( helloWorld.sayHello() );
+    }
