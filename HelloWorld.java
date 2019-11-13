@@ -1,3 +1,8 @@
+package org.olamy.maven.course;
+
+/**
+ * Hello world!
+ */
 public class HelloWorld
 {
 
@@ -23,3 +28,4 @@ public class HelloWorld
         HelloWorld helloWorld = new HelloWorld( args.length > 0 ? args[0] : null );
         System.out.println( helloWorld.sayHello() );
     }
+}
